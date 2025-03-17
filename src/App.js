@@ -5,6 +5,7 @@ function App() {
     const [activeKeys, setActiveKeys] = useState(new Set());
     const [isTakingOff, setIsTakingOff] = useState(false);
     const [isLanding, setIsLanding] = useState(false);
+    const [isReturningHome, setIsReturningHome] = useState(false); 
 
     const handleTakeOff = () => {
         setIsTakingOff(true);
@@ -39,6 +40,15 @@ function App() {
             newKeys.delete(key);
             return newKeys;
         });
+    };
+
+    const handleReturnHome = () => {
+        setIsReturningHome(true); 
+        console.log("Return Home button clicked");
+    };
+
+    const handleReturnHomeRelease = () => {
+        setIsReturningHome(false);
     };
 
     useEffect(() => {
@@ -98,11 +108,6 @@ function App() {
                     <div className="connection-status">
                         Connection Status: Boolean
                     </div>
-                    <div className="battery-status">
-                        <span className="battery-label">Battery:</span>
-                        <div className="battery-bar"></div>
-                        <span className="battery-percentage">20%</span>
-                    </div>
                 </div>
 
                 <div className="content-wrapper">
@@ -140,7 +145,33 @@ function App() {
                         <select className="graph-dropdown">
                             <option>Graph Drop-Down</option>
                         </select>
-
+                        <div className="battery-status-container">
+                            <h3 className="battery-status-title">Battery Status</h3>
+                            <div className="battery-info">
+                                <div className="battery-box">
+                                    <div className = 'battery-header'>
+                                        <p className="battery-label">State of Charge</p>
+                                        <span className="battery-percentage">20%</span>
+                                    </div>
+                                    <div className="battery-bar-container">
+                                        <div className="battery-bar" style={{ width: "20%" }}></div>
+                                    </div>
+                                </div>
+                                <div className="battery-box">
+                                <div className = 'battery-header'>
+                                    <p className="battery-label">State of Health</p>
+                                    <span className="battery-percentage">80%</span>
+                                </div>
+                                    <div className="battery-bar-container">
+                                        <div className="battery-bar" style={{ width: "80%" }}></div>
+                                    </div>
+                                </div>
+                                <div className="battery-box estimated-range">
+                                    <p className="battery-label">Estimated Range</p>
+                                    <p className="battery-range">90 km</p>
+                                </div>
+                            </div>
+                        </div>
                         <div className="controls-section">
                             <h3 className="controls-title">CONTROLS</h3>
                             <div className="control-grid">
@@ -210,6 +241,14 @@ function App() {
                             onMouseLeave={handleLandRelease}
                         >
                             Land (Space)
+                        </button>
+                        <button
+                            className = {`return-home ${isReturningHome ? 'active' : ''}`}
+                            onMouseDown={handleReturnHome}
+                            onMouseUp={handleReturnHomeRelease}
+                            onMouseLeave={handleReturnHomeRelease}
+                        >
+                            Return-Home 
                         </button>
 
                         <div className="gps">
